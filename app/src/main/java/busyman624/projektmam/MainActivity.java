@@ -50,7 +50,6 @@ public class MainActivity extends Activity{
         if(cameraPermission) sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ALL), SensorManager.SENSOR_DELAY_NORMAL);
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, userLocation);
-            //userLocation.location=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
         catch (SecurityException e){
             e.printStackTrace();

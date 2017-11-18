@@ -3,6 +3,7 @@ package busyman624.projektmam;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.location.Location;
+import java.util.Calendar;
 
 public class ObjectData{
     final float EARTH_RADIUS = 6378137;
@@ -14,13 +15,15 @@ public class ObjectData{
     boolean isVisible=false;
     public String name;
     public Location location;
+    private int[] openingHours= new int[2];
 
-    public ObjectData(String name, double latitude, double longitude, double altitude){
+    public ObjectData(String name, double latitude, double longitude, double altitude, int[] openingHours){
         this.name = name;
         location=new Location("Object Location");
         location.setLatitude(latitude);
         location.setLongitude(longitude);
         location.setAltitude(altitude);
+        this.openingHours=openingHours;
 
         locationToECEF();
     }
@@ -62,9 +65,17 @@ public class ObjectData{
         if (BFrame[2] < 0) {
             pixelCoords[0] = (int) (screenSize.x / 2 + (BFrame[1] / BFrame[2]) * (1 / Math.tan(Math.toRadians(cameraParameters.getHorizontalViewAngle()) / 2)) * screenSize.x / 2);
             pixelCoords[1] = (int) (screenSize.y / 2 + (BFrame[0] / BFrame[2]) * (1 / Math.tan(Math.toRadians(cameraParameters.getVerticalViewAngle()) / 2)) * screenSize.y / 2);
-        }
 
-        if(pixelCoords[0]>0 && pixelCoords[0]<screenSize.x && pixelCoords[1]>0 && pixelCoords[1]<screenSize.y) isVisible=true;
+            if(pixelCoords[0]>0 && pixelCoords[0]<screenSize.x && pixelCoords[1]>0 && pixelCoords[1]<screenSize.y) isVisible=true;
+            else isVisible=false;
+        }
         else isVisible=false;
+
+    }
+
+    public boolean isOpen(){
+        int currentHour=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if(currentHour>openingHours[0] && currentHour<openingHours[1]) return true;
+        else return false;
     }
 }

@@ -5,8 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
-
 
 public class SensorListener implements SensorEventListener {
 
@@ -44,11 +42,7 @@ public class SensorListener implements SensorEventListener {
 
         if (accelerometerData != null && magnetometerData != null) {
             if (SensorManager.getRotationMatrix(rotationMatrix, null, accelerometerData, magnetometerData)) {
-                if(counter>5){
-                    cameraOverlay.updateObjects(rotationMatrix);
-                    //Log.d("accData", "X: "+accelerometerData[0]+ " Y: "+ accelerometerData[1] + " Z: "+accelerometerData[2]);
-                    counter=0;
-                } else counter++;
+                if (counter % 5 == 0) cameraOverlay.updateObjects(rotationMatrix);
             }
         }
     }

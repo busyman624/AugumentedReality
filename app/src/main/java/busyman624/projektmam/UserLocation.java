@@ -9,7 +9,6 @@ public class UserLocation implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
         this.location=location;
     }
 
